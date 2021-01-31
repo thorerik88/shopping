@@ -2,6 +2,7 @@ import createMenu from "./common/createMenu.js";
 import { getToken } from "./utils/storage.js";
 import { baseUrl } from "./settings/baseUrl.js";
 import { addItem, deleteItem } from "./utils/api.js";
+import { displayMessage } from "./common/displayMessage.js";
 
 const token = getToken();
 const url = baseUrl + "shoppings";
@@ -13,7 +14,7 @@ if (!token) {
 const form = document.querySelector("form");
 const item = document.querySelector("#item");
 const container = document.querySelector(".add-list");
-
+const message = document.querySelector(".message-container");
 
 createMenu();
 
@@ -22,13 +23,19 @@ createMenu();
         const response = await fetch(url);
         const json = await response.json();
 
-        json.forEach((item) => {
-            displayItems(item.item, item.id);
-        })
+        if (json.length === 0) {
+            displayMessage("", "Your list is empty, please add items", ".add-list")
+        } else {
+            json.forEach((item) => {
+                displayItems(item.item, item.id);
+            })
+        }
+
+        
         
     }
     catch(error) {
-        console.log(error)
+        displayMessage("error", error, ".message-container")
     }
     const deleteButtons = document.querySelectorAll(".delete");
     deleteButtons.forEach((button) => {
@@ -38,8 +45,14 @@ createMenu();
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
+    if (item.value.trim().length === 0) {
+        return displayMessage("warning", "your input was empty", ".message-container")
+    }
+    message.innerHTML = "";
     addItem(item.value, item.id)
     location.href = "/create.html";
+    
+    
 });
 
 function displayItems(item, id) {

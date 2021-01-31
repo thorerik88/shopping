@@ -1,5 +1,6 @@
 import { getToken } from "./storage.js";
 import { baseUrl } from "../settings/baseUrl.js";
+import { displayMessage } from "../common/displayMessage.js";
 
 const token = getToken();
 
@@ -24,7 +25,7 @@ export async function addItem(item) {
         
     }
     catch(error) {
-        console.log(error)
+        displayMessage("error", error, ".message-container")
     }
 }
 
@@ -47,6 +48,6 @@ export async function deleteItem() {
         location.href="/create.html"
     }
     catch(error) {
-        console.log(error)
+        displayMessage("error", error, ".message-container")
     }
 }

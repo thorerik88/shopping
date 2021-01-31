@@ -18,7 +18,7 @@ export default function createMenu() {
     if (token) {
         authLink = `
             <li class="nav-item">
-                <a class="nav-link ${pathname === "/create.html" ? "active" : ""}" href="/create.html">Create List</a>
+                <a class="nav-link ${pathname === "/create.html" ? "active" : ""}" href="/create.html">Your List</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link logout" href="/index.html">Logout</a>
